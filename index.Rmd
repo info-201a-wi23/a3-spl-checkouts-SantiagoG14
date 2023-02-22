@@ -7,6 +7,8 @@ output: html_document
 
 An introduction of the data and a description of the trends/books/items you are choosing to analyze (and why!)
 
+The dataset that I chose to analyze is the _dataset with items checked out at least 5 times a month from 2013-2023_. I chose this because I want to check the trends for publisher, and what author, subject of the book over time, to see how the audience preference has changed over time, and see what is currently the most appealing to them. 
+
 ### Summary Information
 
 Write a summary paragraph of findings that includes the 5 values calculated from your summary information R script
