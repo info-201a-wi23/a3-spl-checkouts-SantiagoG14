@@ -3,33 +3,59 @@ title: "A3: SPL Library Checkouts"
 output: html_document
 ---
 
-### Introduction
+### **Introduction**
 
 An introduction of the data and a description of the trends/books/items you are choosing to analyze (and why!)
 
-The dataset that I chose to analyze is the _dataset with items checked out at least 5 times a month from 2013-2023_. I chose this because I want to check the trends for publisher, and what author, subject of the book over time, to see how the audience preference has changed over time, and see what is currently the most appealing to them. 
+The dataset that I chose to analyze is the dataset with items checked out at least 5 times a month from 2013-2023. I chose this because I want to check the trends for publisher, and what author, subject of the book over time, to see how the audience preference has changed over time, and see what is currently the most appealing to them. 
 
-### Summary Information
+### **Summary Information**
 
-Write a summary paragraph of findings that includes the 5 values calculated from your summary information R script
+The Seattle Public Library dataset provides insightful values for visitors' preferences, such as the authors, publishers, and books that got checked out the most, as well as annual and monthly check out trends.
 
-These will likely be calculated using your DPLYR skills, answering questions such as:
+```{r, code = readLines("summary.r"), echo=FALSE, warning=FALSE, message=FALSE}
 
-- What is the average number of checkouts for each item?
-- What is the month or year with the most/least checkouts for a book that you're interested in?
-- What is the month or year with the most/least checkouts for ebooks?
-- How has the number of print book checkouts changed over time?
+```
 
-Feel free to calculate and report values that you find relevant.
 
-### The Dataset
+> The most frequently checked out author is **Williams Mo**, with a total of **`r author_most_checkout`** checkouts.
 
-- Who collected/published the data?  
-- What are the parameters of the data (dates, number of checkouts, kinds of books, etc.)?
-- How was the data collected or generated?  
-- Why was the data collected?  
-- What, if any, ethical questions do you need to consider when working with this data?  
-- What are possible limitations or problems with this data?   (at least 200 words)
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ggplotly(author_plot) 
+```
+
+> The book that has been checked out the most is **Educated a memoir**, by **`r book_most_checkout_creator`** with an incredible **17,817** total checkouts
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ggplotly(book_plot) 
+```
+
+> The most checked out publisher is **Random House, Inc.**,  with a total of **1,830,160** checkouts
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ggplotly(publisher_plot) 
+```
+
+> Between the year 2005-2023, the year with the most amout of checkouts was **2019**, with the total amount of **2,626,271** checkouts
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ggplotly(year_plot) 
+```
+
+> **January** is the the month with the most amount of checkouts with the total amount of **2,537,907** checkouts 
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+ggplotly(month_plot) 
+```
+
+
+### **The Dataset**
+
+Seattle open data collected and published data from the Seattle public library, which includes the monthly count of checkouts at the library. Although this program to release data from the library only started in 2017, there was an employee at the library who was collecting this data since 2005, to display to visitors in the library what was getting checked out the most, now the data being collected become of an initiative by Barack Obama to have more open data to the public.
+
+The dataset collects usage class (physical or digital, checkout type, material type (book, movie, etc.), check out year and month, total checkout amounts, and the title, creators, and subject of each piece, as well as the publisher and publication year. There are a total of 42 million rows in this dataset, however, this report will focus on checkouts with a book checkout type, and with books that were checked out more than ten times. 
+
+When working with this data, analysts need to make sure that they are not excluding medium and creators. They need to make it explicit that they are only working with a certain type of data, to ensure that the data being represent is a completely accurate picture. The main problem with this dataset is that since it's very large, there can be lots of values that are missing, and since there are so many rows detecting those values is challenging, thus the best way to work with this data is to select a small portion of it and analyze that. 
 
 
 ### First Trends Over Time Chart

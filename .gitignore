@@ -40,3 +40,7 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+
+#inital dataframe
+Checkouts_by_Title.csv
