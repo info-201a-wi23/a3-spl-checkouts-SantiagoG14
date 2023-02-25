@@ -64,3 +64,6 @@ month_plot = ggplot(checkout_by_month) + geom_line(aes(x = CheckoutMonth, y = To
 
 
 
+
+
+

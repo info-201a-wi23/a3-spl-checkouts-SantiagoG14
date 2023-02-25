@@ -1,30 +1,33 @@
 ---
 title: "A3: SPL Library Checkouts"
-output: html_document
+output: 
+  rmarkdown::html_document:
+    theme: bootstrap
 ---
 
 ### **Introduction**
 
-An introduction of the data and a description of the trends/books/items you are choosing to analyze (and why!)
-
-The dataset that I chose to analyze is the dataset with items checked out at least 5 times a month from 2013-2023. I chose this because I want to check the trends for publisher, and what author, subject of the book over time, to see how the audience preference has changed over time, and see what is currently the most appealing to them. 
+The dataset that I chose to analyze is contains data with items that have been checked out at least 5 times, and are of the Book medium(book, audiobook, ebook) the reason for this is because, I wanted to check how the pandemic had an effect on checkout behavior, so we are going to be looking at trends on which medium got checkout the most, and the trends over time of the authors with the most checkuts. At the end since I am a harry potter fan we are going to analyze harry potters checkout numbers
 
 ### **Summary Information**
 
 The Seattle Public Library dataset provides insightful values for visitors' preferences, such as the authors, publishers, and books that got checked out the most, as well as annual and monthly check out trends.
 
 ```{r, code = readLines("summary.r"), echo=FALSE, warning=FALSE, message=FALSE}
-
+  
+```
+```{r, code = readLines("chart1.r"), echo=FALSE, warning=FALSE, message=FALSE}
+  
 ```
 
 
-> The most frequently checked out author is **Williams Mo**, with a total of **`r author_most_checkout`** checkouts.
+> The most frequently checked out author is **Mo Williams**, with a total of **`r author_most_checkout`** checkouts.
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 ggplotly(author_plot) 
 ```
 
-> The book that has been checked out the most is **Educated a memoir**, by **`r book_most_checkout_creator`** with an incredible **17,817** total checkouts
+> The book item that has been checked out the most is **Educated a memoir**, by **`r book_most_checkout_creator`** with an incredible **17,817** total checkouts
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 ggplotly(book_plot) 
@@ -58,57 +61,30 @@ The dataset collects usage class (physical or digital, checkout type, material t
 When working with this data, analysts need to make sure that they are not excluding medium and creators. They need to make it explicit that they are only working with a certain type of data, to ensure that the data being represent is a completely accurate picture. The main problem with this dataset is that since it's very large, there can be lots of values that are missing, and since there are so many rows detecting those values is challenging, thus the best way to work with this data is to select a small portion of it and analyze that. 
 
 
-### First Trends Over Time Chart
+### **Top 5 authors check-outs overtime**
 
-Include a chart. Make sure to describe why you included the chart, and what patterns emerged
+I decided to create this graph of the authors with the most checkouts, and see their checkouts over time, was to see during what time these authors were getting the most amount of checkouts and have an understanding at what point of time they were the most popular, which can tell us when they released their most famous pieces. Most of these authors' checkouts were generally increasing over time. During the pandemic their numbers plummeted understanding, however, after the pandemic, most of their checkouts did not go back to normal, suggesting that checkout behaviors may have changed. 
 
-The first chart that you will create and include will show the trend over time of your variable/topic/interest. Think carefully about what you want to communicate to your user (you may have to find relevant trends in the dataset first!). Here are some requirements to help guide your design:
-
-- Show more than one, but fewer than ~10 trends
-  - For example, two books, or 5 different mediums
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear - legend title
-In your .Rmd file, make sure to describe why you included the chart, and what patterns emerged
-
-When we say "clear" or "human readable" titles and labels, that means that you should not just display the variable name.
-
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, warning = FALSE, code = readLines("chart1_example.R")}
+``````{r, echo = FALSE, warning = FALSE, message = FALSE}
+ggplotly(top_5_authors_trends_graph)
 ```
 
-### Second Trends Over Time Chart
+### **Mediums checkouts over time**
 
-Include a chart. Make sure to describe why you included the chart, and what patterns emerged
+My motivation for the medium checkouts over time was to see how the increasing popularity of audiobooks and ebooks changed checkout behaviors at the SPL. We can see that during the pandemic, physical book checkouts plummeted, and the checkout numbers for audiobooks and ebooks increased dramatically, again suggesting that the pandemic had a tremendous impact on checkout behaviors. 
 
-The second chart that you will create and include will show another trend over time of your variable/topic/interest. Think carefully about what you want to communicate to your user (you may have to find relevant trends in the dataset first!). Here are some requirements to help guide your design:
-
-- Show more than one, but fewer than ~10 trends
-  - For example, two books, or 5 different mediums
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear - legend title
-In your .Rmd file, make sure to describe why you included the chart, and what patterns emerged
-
-When we say "clear" or "human readable" titles and labels, that means that you should not just display the variable name.
-
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, code = readLines("chart2_example.R")}
+``````{r, echo = FALSE, warning = FALSE, message = FALSE}
+ggplotly(medium_trends_plot)
 ```
 
-### Your Choice
+### **For the Harry Potter fans**
 
-The last chart is up to you. It could be a line plot, scatter plot, histogram, bar plot, stacked bar plot, and more. Here are some requirements to help guide your design:
+The reason I decided checkout the number for harry potter books was because I enjoyed reading the first three books, and I found that since Harry potter has a huge fan base, fans could be interested on checkout the numbers on their favorite books. _The data-visualizations display harry potter book checkouts that were in English_
 
-- You must have clear x and y axis labels
-- The chart needs a clear title 
-- You need a legend for your different line colors and a clear legend title
+``````{r, echo = FALSE, warning = FALSE, message = FALSE}
+ggplotly(harry_potter_viz)
+ggplotly(harry_potter_over_time_viz)
 
-Here's an example of how to run an R script inside an RMarkdown file:
-
-``````{r, echo = FALSE, code = readLines("chart2_example.R")}
 ```
 
 

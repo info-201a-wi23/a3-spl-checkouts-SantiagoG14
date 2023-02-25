@@ -2,10 +2,16 @@ library("tidyverse")
 library("ggplot2")
 library("plotly")
 library("scales")
+library("textcat")
+
+
+#reading in data from spl
 
 checkout_df <- read.csv("Checkouts_by_Title.csv")
 
 authors <- checkout_df$Creator
+
+# cleaning up author name
 
 authors <- gsub("[0-9].", "", authors)
 authors <- gsub("\\(.*.", "", authors)
@@ -13,41 +19,68 @@ authors <- gsub("-", "", authors)
 authors <- str_trim(authors)
 
 
-
+# inserting new authors vectors back into original df
 checkout_df <- checkout_df %>% mutate(Creator = authors)
 
+# get top 5 authors with the most amout of checkouts
 
-top_10_authors <- checkout_df %>% group_by(Creator) %>% summarise(checkouts = sum(Checkouts)) %>% arrange(desc(checkouts)) %>% slice(1:10)
-author_most_checkout <- top_10_authors %>% filter(checkouts == max(checkouts)) %>% pull(checkouts)
+top_5_authors <-
+  checkout_df %>% group_by(Creator) %>% summarise(checkouts = sum(Checkouts)) %>% arrange(desc(checkouts)) %>% slice(1:5) %>% pull(Creator)
+
+authors_new <- gsub(",", "", top_5_authors)
+authors_new <- gsub("\\.", "", authors_new)
+authors_new <- str_split(authors_new, " ")
+authors_new[1]
+# get the checkouts over time for those authors
+
+top_5_authors_trends <-
+  checkout_df %>% filter(Creator %in% top_5_authors) %>% group_by(CheckoutYear, Creator) %>% summarise(checkouts_per_year = sum(Checkouts)) %>% filter(CheckoutYear != "2023")
+
+# creating author trends plot
+
+top_5_authors_trends_graph <-
+  ggplot(top_5_authors_trends) + geom_line(aes(x = CheckoutYear, y = checkouts_per_year, color = Creator)) + geom_point(aes(x = CheckoutYear, y = checkouts_per_year, color = Creator)) + labs(x = "Year", y = "Checkouts per year", title = "Top 5 authors checkouts over time") + scale_y_continuous(labels = label_number())
+
+# medium trends for books
+
+medium_trends <-
+  checkout_df %>%  group_by(MaterialType, CheckoutYear) %>% summarise(checkouts_per_year = sum(Checkouts)) %>% arrange(desc(checkouts_per_year)) %>% filter(CheckoutYear != "2023")
+
+# creating medium trends plot
+
+medium_trends_plot <-
+  ggplot(medium_trends) + geom_line(aes(x = CheckoutYear, y = checkouts_per_year, color = MaterialType)) + geom_point(aes(x = CheckoutYear, y = checkouts_per_year, color = MaterialType)) + labs(x = "Year", y = "Checkouts per year", color = "Medium", title = "Medium checkouts over time") + scale_y_continuous(labels = label_number_si())
+
+# filtering for all rows with title that contains harry potter and their title is in english
 
 
-top_10_books <- checkout_df %>%  group_by(Title) %>% summarise(checkouts = sum(Checkouts)) %>% arrange(desc(checkouts)) %>% slice(1:10)
-
-top_10_publishers <- checkout_df %>%  group_by(Publisher) %>% summarise(checkouts = sum(Checkouts)) %>% arrange(desc(checkouts)) %>% slice(1:10)
-
-book_most_checkout_creator <- checkout_df %>% filter(Title == top_10_books$Title[1]) %>% slice(1:1) %>% pull(Creator)
-
-
-highest_checkout_year <- checkout_df %>% group_by(CheckoutYear) %>% summarise(Total_checkouts = sum(Checkouts))
-checkout_by_month <- checkout_df %>% group_by(CheckoutMonth) %>% summarise(Total_checkouts = sum(Checkouts)) %>% mutate(CheckoutMonth = as.Date(paste("2020", CheckoutMonth, "01", sep = "-")))
+harry_potter <- checkout_df %>% filter(str_starts(Title, "Harry Potter") | str_starts(Title, "harry potter")) %>% mutate(Language = textcat(Title)) %>% filter(Language == "english")
+books <- gsub("\\:.*", "", harry_potter$Title)
+books <- gsub("\\/.*", "", books)
+books <- gsub("\\[.*", "", books)
+books <- gsub("\\..*", "", books)
+books <- tolower(str_trim(books))
 
 
+# adding the titles back to the data frame
 
-author_plot = ggplot(top_10_authors) + geom_col(aes(x = checkouts, y = Creator, fill = Creator)) + scale_x_continuous(labels = label_number_si()) + labs(title = "Top tep most checked out authors")
+harry_potter <- harry_potter %>% mutate(Title = books)
 
-book_plot = ggplot(top_10_books) + geom_col(aes(x = checkouts, y = str_wrap(Title, 30), fill = str_wrap(Title, 30), text = paste("Checkouts:", checkouts))) + labs(title = "Top ten most checked out books",x = "Number of checkouts", y = "Book title", fill="Titles")
+#getting all the checkouts per harry potter books
 
+checkouts_per_book <- harry_potter %>% group_by(Title) %>% summarise(total_checkouts = sum(Checkouts)) %>% filter(Title != "harry potter")
 
-publisher_plot = ggplot(top_10_publishers) + geom_col(aes(x = checkouts, y = Publisher, fill = Publisher)) + scale_x_continuous(labels = label_number_si()) + labs(title = "Top tep most checked out publishers")
+#getting the checkouts per year per all harry potter books
 
-year_plot = ggplot(highest_checkout_year) + geom_line(aes(x =CheckoutYear, y = Total_checkouts)) + geom_point(aes(x =CheckoutYear, y = Total_checkouts)) + scale_y_continuous(labels = label_number_si()) + labs(title = "Checkout by years", x = "Checkout year", y = "Total checkouts")
+harry_potter_over_time <- harry_potter %>% group_by(Title, CheckoutYear) %>% summarise(total_checkouts = sum(Checkouts)) %>% filter(Title != "harry potter")
 
-month_plot = ggplot(checkout_by_month) + geom_line(aes(x = CheckoutMonth, y = Total_checkouts)) + geom_point(aes(x = CheckoutMonth, y = Total_checkouts)) + scale_y_continuous(labels = label_number_si()) + labs(title = "Checkout by month", x = "Checkout year", y = "Total checkouts") + scale_x_date(date_labels = "%b", date_breaks = "1 month")
+# creating plot for checkouts per all harry potter books 
 
+harry_potter_viz <- ggplot(checkouts_per_book) + geom_col(aes(x = total_checkouts, y = str_wrap(Title, 30), fill = str_wrap(Title, 30), text = paste("Checkouts:", total_checkouts), title = Title)) + labs(title = "Harry potter book checkouts", x = "Total checkouts", y = "Book title", fill = "Book title")
 
+# creating plot for checkoust per year per all harry potter books
 
-
-
+harry_potter_over_time_viz <- ggplot(harry_potter_over_time) + geom_line(aes(x = CheckoutYear, y = total_checkouts, color = str_wrap(Title, 30))) + geom_point(aes(x = CheckoutYear, y = total_checkouts, color = str_wrap(Title, 30))) + labs(title = "Harry potter overtime", x = "Checkout year", y = "Total checkouts", color = "Title")
 
 
 
