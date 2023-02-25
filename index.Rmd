@@ -13,10 +13,10 @@ The dataset that I chose to analyze is contains data with items that have been c
 
 The Seattle Public Library dataset provides insightful values for visitors' preferences, such as the authors, publishers, and books that got checked out the most, as well as annual and monthly check out trends.
 
-```{r, code = readLines("summary.r"), echo=FALSE, warning=FALSE, message=FALSE}
+```{r, code = readLines("summary.r"), echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
   
 ```
-```{r, code = readLines("charts.r"), echo=FALSE, warning=FALSE, message=FALSE, }
+```{r, code = readLines("charts.r"), echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
 ```
 
 

@@ -34,6 +34,7 @@ top_5_authors <-
 #first_new <- unlist(authors_new[[1]])
 #popular_author <- checkout_df %>% filter(str_detect(Creator, first_new[1]) & str_detect#(Creator, first_new[2]))
 #unique(popular_author$Creator)
+
 # get the checkouts over time for those authors
 
 top_5_authors_trends <-
