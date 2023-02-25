@@ -17,7 +17,6 @@ The Seattle Public Library dataset provides insightful values for visitors' pref
   
 ```
 ```{r, code = readLines("chart1.r"), echo=FALSE, warning=FALSE, message=FALSE}
-  
 ```
 
 

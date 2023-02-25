@@ -27,10 +27,13 @@ checkout_df <- checkout_df %>% mutate(Creator = authors)
 top_5_authors <-
   checkout_df %>% group_by(Creator) %>% summarise(checkouts = sum(Checkouts)) %>% arrange(desc(checkouts)) %>% slice(1:5) %>% pull(Creator)
 
-authors_new <- gsub(",", "", top_5_authors)
-authors_new <- gsub("\\.", "", authors_new)
-authors_new <- str_split(authors_new, " ")
-authors_new[1]
+
+#authors_new <- gsub(",", "", top_5_authors)
+#authors_new <- gsub("\\.", "", authors_new)
+#authors_new <- str_split(authors_new, " ")
+#first_new <- unlist(authors_new[[1]])
+#popular_author <- checkout_df %>% filter(str_detect(Creator, first_new[1]) & str_detect#(Creator, first_new[2]))
+#unique(popular_author$Creator)
 # get the checkouts over time for those authors
 
 top_5_authors_trends <-
@@ -81,6 +84,4 @@ harry_potter_viz <- ggplot(checkouts_per_book) + geom_col(aes(x = total_checkout
 # creating plot for checkoust per year per all harry potter books
 
 harry_potter_over_time_viz <- ggplot(harry_potter_over_time) + geom_line(aes(x = CheckoutYear, y = total_checkouts, color = str_wrap(Title, 30))) + geom_point(aes(x = CheckoutYear, y = total_checkouts, color = str_wrap(Title, 30))) + labs(title = "Harry potter overtime", x = "Checkout year", y = "Total checkouts", color = "Title")
-
-
 
