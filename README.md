@@ -1,6 +1,6 @@
 # Assignment 3: SPL Library Checkouts
 
-Link to your final GitHub pages site here: https://info-201a-wi23.github.io/a3-spl-starter/index.html (change the link to for your GitHub pages site)
+Link to your final GitHub pages site here: https://info-201a-wi23.github.io/a3-spl-checkouts-SantiagoG14/
 
 In this assignment, you will use your data analysis and visualization skills to analyze patterns and trends in [library circulation data published by the Seattle Public Library](https://data.seattle.gov/Community/Checkouts-by-Title/tmmm-ytt6).
 
@@ -10,9 +10,9 @@ This assignment is more open-ended than previous ones. You will be tasked with u
 
 The data for this assignment comes from the [Seattle Public Library](https://data.seattle.gov/Community/Checkouts-by-Title/tmmm-ytt6). The library has checkout data going back to 2005, and it includes more than 40 million rows, which is too large to fit on our laptops. So we are including smaller datasets that you can use, and you are free to work with any or all of these datasets.
 
-To access the datasets, you will need to download them as zip files by clicking one or more of the links on Canvas, and then you will need to unzip the file(s) and load the CSV files into RStudio by providing the correct file path(s). 
+To access the datasets, you will need to download them as zip files by clicking one or more of the links on Canvas, and then you will need to unzip the file(s) and load the CSV files into RStudio by providing the correct file path(s).
 
-- Dataset with items checked out at least 5 times a month from 2013-2023 (file size: +1 GB) 
+- Dataset with items checked out at least 5 times a month from 2013-2023 (file size: +1 GB)
 - Dataset with items checked out at least 10 times a month from 2017-20203 (file size: 229 MB)
 - Dataset with all items checked out in 2022-2023 (file size: 709 MB)
 
